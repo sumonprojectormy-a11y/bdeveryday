@@ -1,0 +1,11 @@
+.env*
+!.env.example
+node_modules/
+.next/
+.vercel/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+lib/generated/
+reference/news/dist/server/
+reference/news/dist/.openai/

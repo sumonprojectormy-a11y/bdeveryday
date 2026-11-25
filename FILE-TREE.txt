@@ -1,0 +1,126 @@
+BD-Everyday/
+├── .env.example
+├── .gitignore
+├── .npmrc
+├── .nvmrc
+├── FILE-TREE.txt
+├── README.md
+├── app/
+│   ├── [[...path]]/
+│   │   └── route.ts
+│   ├── admin/
+│   │   ├── actions.ts
+│   │   ├── login/
+│   │   │   └── page.tsx
+│   │   ├── page.tsx
+│   │   └── storage-upload.tsx
+│   ├── error.tsx
+│   ├── layout.tsx
+│   ├── loading.tsx
+│   └── styles.css
+├── eslint.config.mjs
+├── lib/
+│   ├── companions.ts
+│   ├── config.ts
+│   ├── content-model.ts
+│   ├── content.ts
+│   ├── database.ts
+│   ├── newsroom.ts
+│   ├── orders.ts
+│   ├── reference-types.ts
+│   ├── reference-worker.d.ts
+│   ├── supabase-browser.ts
+│   └── supabase.ts
+├── next.config.mjs
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+├── proxy.ts
+├── reference/
+│   ├── BD-Everyday-Technical-Specification.md
+│   ├── companion-fixtures.json
+│   ├── compare/
+│   │   ├── .openai/
+│   │   │   └── hosting.json
+│   │   └── dist/
+│   │       └── index.html
+│   ├── jobs/
+│   │   ├── .openai/
+│   │   │   └── hosting.json
+│   │   └── dist/
+│   │       └── index.html
+│   ├── news/
+│   │   ├── .gitignore
+│   │   ├── .openai/
+│   │   │   └── hosting.json
+│   │   ├── dist/
+│   │   │   ├── apple-touch-icon.png
+│   │   │   ├── back-to-top.js
+│   │   │   ├── bd-everyday-footer-logo.svg
+│   │   │   ├── bd-everyday-logo.svg
+│   │   │   ├── bulletin.mp4
+│   │   │   ├── country/
+│   │   │   │   └── index.html
+│   │   │   ├── country-data-license.txt
+│   │   │   ├── country-data.js
+│   │   │   ├── country.js
+│   │   │   ├── demo-live.js
+│   │   │   ├── editorial.js
+│   │   │   ├── favicon.ico
+│   │   │   ├── favicon.svg
+│   │   │   ├── feature-stories.js
+│   │   │   ├── floating-header.js
+│   │   │   ├── frontpage.js
+│   │   │   ├── index.html
+│   │   │   ├── live.js
+│   │   │   ├── newspaper-theme.css
+│   │   │   ├── newsroom.js
+│   │   │   ├── photos/
+│   │   │   │   ├── kuala-lumpur.webp
+│   │   │   │   ├── market.webp
+│   │   │   │   ├── metro.webp
+│   │   │   │   ├── padma.webp
+│   │   │   │   └── tea.webp
+│   │   │   └── videos/
+│   │   │       ├── books.mp4
+│   │   │       ├── books.webp
+│   │   │       ├── dhaka.mp4
+│   │   │       ├── dhaka.webp
+│   │   │       ├── market.mp4
+│   │   │       ├── market.webp
+│   │   │       ├── probash.mp4
+│   │   │       ├── probash.webp
+│   │   │       ├── station.mp4
+│   │   │       ├── station.webp
+│   │   │       ├── study.mp4
+│   │   │       └── study.webp
+│   │   ├── drizzle/
+│   │   │   ├── 0000_newsroom.sql
+│   │   │   ├── 0001_live_coverage.sql
+│   │   │   ├── 0002_reader_editorial.sql
+│   │   │   └── meta/
+│   │   │       └── _journal.json
+│   │   └── worker/
+│   │       ├── build.mjs
+│   │       ├── editorial.js
+│   │       ├── english-build.mjs
+│   │       ├── english-copy.json
+│   │       ├── english-places.json
+│   │       ├── index.js
+│   │       ├── live.js
+│   │       └── translate.js
+│   ├── news-article-fixtures.json
+│   └── shop/
+│       ├── .openai/
+│       │   └── hosting.json
+│       └── dist/
+│           └── index.html
+├── scripts/
+│   ├── grant-admin.mjs
+│   ├── reference.mjs
+│   └── seed.mjs
+├── supabase/
+│   ├── demo.sql
+│   └── schema.sql
+├── tsconfig.json
+└── vercel.json

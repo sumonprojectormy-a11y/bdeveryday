@@ -1,0 +1,52 @@
+<!doctype html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BD Everyday Shop</title><style>
+*{box-sizing:border-box}body{margin:0;background:#f9f8f2;color:#1b3027;font:16px/1.6 system-ui,sans-serif}.wrap{width:min(1120px,92%);margin:auto}header{background:white;border-bottom:1px solid #dbe4d8}.bar{padding:14px 0;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-size:clamp(23px,5vw,36px);font-weight:900;letter-spacing:-.05em}.brand b{color:#098658}button,input,select{font:inherit}button,a{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid #a56622;outline-offset:3px}button,.button{background:#164734;color:white;border:0;border-radius:8px;padding:9px 14px;font-weight:720;text-decoration:none;display:inline-block}.hero{background:linear-gradient(90deg,#123e30 28%,#123e30e8 53%,#123e3065),url('https://cabinetsbay.com/media/wysiwyg/blog/Organize_Kitchen_Cabinets.png') center/cover,#123e30;color:white;padding:48px 0}.hero h1{font-size:clamp(37px,6vw,66px);line-height:1.15;margin:8px 0}.hero p{margin:0 0 19px}.hero small{color:#ddedb4;font-weight:750}.hero .button{background:#def0ad;color:#213f28}.tools{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:24px 0 16px}.tools input,select{padding:8px 11px;border:1px solid #c8d7cb;border-radius:7px;background:white;color:inherit}.tools input{flex:1;min-width:0}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:28px}.card{background:white;border:1px solid #dce5d9;border-radius:12px;padding:17px;display:flex;flex-direction:column;align-items:start}.category{color:#176342;background:#eaf3e7;border-radius:5px;padding:3px 8px;font-size:14px}.card h3{margin:11px 0 0;font-size:22px}.card p{margin:3px 0 12px;color:#465c50}.price{font-size:23px;font-weight:800;margin-top:auto}.card button{margin-top:9px}.card button:hover,button:hover{filter:brightness(1.15)}h2{margin-bottom:0}#status{min-height:26px;margin:0;color:#435c4d}footer{background:#123e30;color:#f4faee;padding:20px 0}footer a{color:inherit}dialog{border:0;border-radius:13px;padding:22px;color:inherit;width:min(590px,94vw);max-height:90vh;overflow:auto}dialog::backdrop{background:#162e24a8}.head,.line,.total{display:flex;justify-content:space-between;align-items:center;gap:10px}.head h2{margin:0}.light{background:#e8f0e6;color:#173f2d}.line,.total{border-top:1px solid #d9e4d8;padding:10px 0}.line>div:last-child{display:flex;gap:5px;align-items:center}.line button{min-width:37px;padding:3px 8px}.total{font-size:20px;font-weight:800}.checkout label{display:block;margin:10px 0}.checkout select{display:block;width:100%;margin-top:4px}.note{color:#465c50}.success{background:#eef5e5;padding:15px;border-radius:8px;margin-top:15px} [hidden]{display:none!important}@media(max-width:730px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:490px){.grid{grid-template-columns:1fr}.hero{padding:32px 0}}
+</style></head><body>
+<header><div class="wrap bar"><div class="brand"><b>BD</b> Everyday Shop</div><button id="basket">কার্ট · ০</button></div></header>
+<section class="hero"><div class="wrap"><small>নমুনা দোকান</small><h1>প্রতিদিনের দরকারি পণ্য,<br>এক ঠিকানায়।</h1><p>রান্নাঘর, স্কুল, অফিস আর ঘরের জন্য বাছাই করা পণ্য।</p><a class="button" href="#catalog">পণ্য দেখুন</a></div></section>
+<main id="catalog" class="wrap"><h2>পণ্যের তালিকা</h2><div class="tools"><input type="search" id="query" aria-label="পণ্য খুঁজুন" placeholder="পণ্য খুঁজুন"><select id="filter" aria-label="বিভাগ"><option value="">সব বিভাগ</option><option>রান্নাঘর ও সংরক্ষণ</option><option>স্কুল ও অফিস</option><option>ঘরের দরকারি জিনিস</option></select></div><p id="status" aria-live="polite"></p><div class="grid" id="grid"></div></main>
+<footer><div class="wrap">BD Everyday Shop · পণ্য ও দাম নমুনা। <a href="https://cabinetsbay.com/">রান্নাঘরের ছবির উৎস</a></div></footer>
+<dialog id="cart" aria-labelledby="cart-title"><div class="head"><h2 id="cart-title">আপনার কার্ট</h2><form method="dialog"><button class="light">বন্ধ করুন</button></form></div><div id="items"></div><form id="checkout" class="checkout"><label>ডেলিভারি এলাকা<select id="area"><option value="70">ঢাকার ভেতরে</option><option value="130">ঢাকার বাইরে</option></select></label><div class="line"><span>পণ্যের মোট</span><span id="subtotal"></span></div><div class="line"><span>ডেলিভারি চার্জ</span><span id="delivery"></span></div><div class="total"><span>সর্বমোট</span><span id="total"></span></div><p class="note">পেমেন্ট পদ্ধতি · ক্যাশ অন ডেলিভারি</p><button type="submit">নমুনা অর্ডার দিন</button></form><div class="success" id="confirmation" role="status" hidden></div></dialog>
+<script>
+const products=[
+['ফুড কনটেইনার সেট','রান্নাঘর ও সংরক্ষণ','চারটি ঢাকনাসহ পাত্র','food container',649],
+['মসলার জার সেট','রান্নাঘর ও সংরক্ষণ','ছয়টি কাচের জার','spice jars',790],
+['স্কুল লাঞ্চ সেট','স্কুল ও অফিস','লাঞ্চ বক্স ও পানির বোতল','lunch box bottle school',890],
+['ইনসুলেটেড লাঞ্চ ব্যাগ','স্কুল ও অফিস','স্কুল বা অফিসের জন্য','lunch bag',490],
+['রিচার্জেবল লাইট','ঘরের দরকারি জিনিস','USB চার্জিং ও দুই মোড','rechargeable light',590],
+['স্টোরেজ বাস্কেট','ঘরের দরকারি জিনিস','হাতলসহ মাঝারি ঝুড়ি','storage basket',350]
+];
+const cart=new Map(),get=id=>document.getElementById(id),number=new Intl.NumberFormat('bn-BD'),money=n=>'৳'+number.format(n);
+function el(tag,text,cls=''){const node=document.createElement(tag);node.textContent=text;node.className=cls;return node}
+function change(index,delta){const count=(cart.get(index)||0)+delta;if(count>0)cart.set(index,count);else cart.delete(index);get('confirmation').hidden=true;renderCart()}
+function renderCart(){
+const count=[...cart.values()].reduce((sum,n)=>sum+n,0);
+get('basket').textContent='কার্ট · '+number.format(count);
+get('checkout').hidden=!count;
+const rows=[...cart].map(([index,quantity])=>{
+const [name,,,,price]=products[index],row=el('div','','line'),summary=el('div',name),buttons=el('div','');
+summary.append(el('div',money(price*quantity)));
+const minus=el('button','−','light'),plus=el('button','+','light');
+minus.setAttribute('aria-label',name+' কমান');plus.setAttribute('aria-label',name+' বাড়ান');
+minus.onclick=()=>change(index,-1);plus.onclick=()=>change(index,1);
+buttons.append(minus,el('span',number.format(quantity)),plus);row.append(summary,buttons);return row});
+get('items').replaceChildren(...(rows.length?rows:get('confirmation').hidden?[el('p','আপনার কার্ট খালি।')]:[]));
+const subtotal=[...cart].reduce((sum,[index,quantity])=>sum+products[index][4]*quantity,0);
+const delivery=count?Number(get('area').value):0;
+get('subtotal').textContent=money(subtotal);get('delivery').textContent=money(delivery);get('total').textContent=money(subtotal+delivery);
+}
+function renderProducts(){
+const query=get('query').value.trim().toLowerCase(),filter=get('filter').value;
+const cards=products.flatMap(([name,category,details,keywords,price],index)=>{
+if((filter&&category!==filter)||![name,category,details,keywords].join(' ').toLowerCase().includes(query))return [];
+const card=el('article','','card'),button=el('button','কার্টে যোগ করুন');
+button.setAttribute('aria-label',name+' কার্টে যোগ করুন');
+button.onclick=()=>{change(index,1);get('status').textContent=name+' কার্টে যোগ হয়েছে।'};
+card.append(el('span',category,'category'),el('h3',name),el('p',details),el('strong',money(price),'price'),button);return [card]});
+get('grid').replaceChildren(...cards);
+get('status').textContent=cards.length?number.format(cards.length)+'টি নমুনা পণ্য':'কোনো পণ্য পাওয়া যায়নি।';
+}
+get('query').oninput=renderProducts;get('filter').onchange=renderProducts;get('area').onchange=renderCart;
+get('basket').onclick=()=>{renderCart();get('cart').showModal()};
+get('checkout').onsubmit=event=>{event.preventDefault();if(!cart.size)return;const total=get('total').textContent;cart.clear();get('confirmation').textContent='নমুনা অর্ডার সম্পন্ন। ক্যাশ অন ডেলিভারি · '+total+'। কোনো আসল অর্ডার পাঠানো হয়নি।';get('confirmation').hidden=false;renderCart();};
+renderProducts();renderCart();
+</script></body></html>

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="bn">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BD Everyday | চাকরি ও সুযোগ</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f4f6f1;color:#172822;font:16px/1.6 system-ui,sans-serif}.wrap{width:min(1070px,92%);margin:auto}header{background:#fff}.bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:15px 0}.logo{font-size:clamp(24px,5vw,34px);font-weight:900;letter-spacing:-.05em}.logo b{color:#087749}.demo{border:1px solid #bdd3c3;border-radius:5px;padding:3px 9px;font-size:14px}.hero{background:#113d2e;color:#fff;padding:40px 0}.hero h1{font-size:clamp(38px,7vw,70px);line-height:1.15;margin:0}.hero p{color:#e0ecde;margin:10px 0 20px}.hero input{width:min(610px,100%);padding:12px 15px;border:0;border-radius:8px}input,button,select{font:inherit}button,select{cursor:pointer}button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #a86b24;outline-offset:3px}.filters{display:flex;gap:8px;flex-wrap:wrap;margin:24px 0 18px}.filters button,select{border:1px solid #c6d5cb;background:white;border-radius:7px;padding:8px 12px;color:#173c2e}.filters button[aria-pressed=true]{background:#173e30;color:#fff}.layout{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:22px;margin-bottom:32px}.card,aside{background:white;border:1px solid #d9e3da;border-radius:12px;padding:18px}.card{margin:0 0 12px;display:flex;align-items:center;justify-content:space-between;gap:15px}.card h3{margin:5px 0;font-size:21px}.card p,aside p{margin:4px 0;color:#4b6155}.type{display:inline-block;background:#e7f1e5;color:#176341;border-radius:4px;padding:2px 8px;font-weight:700;font-size:14px}.action{background:#daedac;border:0;border-radius:7px;padding:8px 12px;font-weight:750;color:#203d24;white-space:nowrap}aside{align-self:start;border-top:5px solid #d3e799}h2{margin:0 0 5px}#count{color:#4b6155;margin:0 0 12px}.deadline{display:block;width:100%;text-align:left;border:0;border-top:1px solid #e1e9e0;background:white;padding:10px 0;color:inherit}.deadline span{display:block;color:#496457}.deadline:hover{background:#f0f7ec}footer{background:#113d2e;color:#fff;padding:15px 0}dialog{border:0;border-radius:12px;width:min(560px,92vw);padding:24px;color:inherit}dialog::backdrop{background:#122b21ac}dialog form{text-align:right}dialog form button{border:1px solid #b9cfc1;background:#fff;border-radius:6px;padding:5px 10px}.notice{background:#eff4ec;padding:10px;border-radius:6px}@media(max-width:690px){.layout{grid-template-columns:1fr}.hero{padding:30px 0}}@media(max-width:390px){.card{align-items:start;flex-direction:column}}
+</style></head>
+<body><header><div class="wrap bar"><div class="logo"><b>BD</b> Everyday</div><span class="demo">নমুনা সংস্করণ</span></div></header>
+<section class="hero"><div class="wrap"><h1>চাকরি ও সুযোগ</h1><p>নতুন চাকরি, ইন্টার্নশিপ ও বৃত্তির খোঁজ এক জায়গায়।</p><input id="search" type="search" aria-label="সুযোগ খুঁজুন" placeholder="পদ, দক্ষতা বা এলাকা দিয়ে খুঁজুন"></div></section>
+<main class="wrap"><div class="filters" id="filters" aria-label="সুযোগের ধরন"></div><div class="layout"><section><h2>সুযোগের তালিকা</h2><p id="count" aria-live="polite"></p><div id="list"></div></section><aside><h2>এই সপ্তাহে আবেদনের শেষ দিন</h2><p>বাংলাদেশ সময় অনুযায়ী</p><div id="deadlines"></div></aside></div></main>
+<footer><div class="wrap">BD Everyday · সব পদের বিবরণ নমুনা।</div></footer>
+<dialog id="details" aria-labelledby="title"><form method="dialog"><button>বন্ধ করুন</button></form><h2 id="title"></h2><p id="meta"></p><p id="body"></p><p id="date"></p><p class="notice">এটি একটি নমুনা বিজ্ঞপ্তি। এখানে আবেদন গ্রহণ করা হয় না।</p></dialog>
+<script>
+const kinds=['সব সুযোগ','চাকরি','ইন্টার্নশিপ','বৃত্তি','প্রশিক্ষণ'];
+const listings=[
+[1,'জুনিয়র সেলস এক্সিকিউটিভ','ঢাকা','নতুন গ্র্যাজুয়েট','sales dhaka','গ্রাহকের প্রশ্নের উত্তর দিন এবং পণ্য বাছাইয়ে সহায়তা করুন।',1],
+[2,'ডিজিটাল মার্কেটিং ইন্টার্ন','ঢাকা','৩ মাস','digital marketing dhaka','সোশ্যাল মিডিয়ার কনটেন্ট ও সাপ্তাহিক রিপোর্ট তৈরিতে দলকে সহায়তা করুন।',3],
+[1,'কাস্টমার সাপোর্ট অ্যাসিস্ট্যান্ট','চট্টগ্রাম','০–১ বছর অভিজ্ঞতা','customer support chattogram','ফোন ও চ্যাটে গ্রাহকদের অর্ডার এবং ডেলিভারি সংক্রান্ত প্রশ্নের উত্তর দিন।',8],
+[3,'স্নাতক শিক্ষার্থীদের বৃত্তি','সারা বাংলাদেশ','বর্তমান স্নাতক শিক্ষার্থী','scholarship bangladesh','আবেদনের জন্য শিক্ষাপ্রতিষ্ঠানের প্রত্যয়নপত্র ও ফলাফলের কপি প্রস্তুত রাখুন।',12],
+[4,'এক্সেল ও স্প্রেডশিট প্রশিক্ষণ','অনলাইন','শুরুর স্তর','excel online training','ফর্মুলা, ফিল্টার ও দৈনন্দিন হিসাবের জন্য স্প্রেডশিট ব্যবহার শিখুন।',2]
+];
+const get=id=>document.getElementById(id);
+const dateFormat=new Intl.DateTimeFormat('bn-BD',{day:'numeric',month:'long',timeZone:'Asia/Dhaka'});
+const dayFormat=new Intl.DateTimeFormat('en-US',{weekday:'short',timeZone:'Asia/Dhaka'});
+const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const now=new Date();
+const msPerDay=86400000;
+const endOffset=6-days.indexOf(dayFormat.format(now));
+const due=item=>dateFormat.format(new Date(Number(now)+item[6]*msPerDay));
+const number=new Intl.NumberFormat('bn-BD');
+let active=0;
+function el(tag,string,style=''){const node=document.createElement(tag);node.textContent=string;node.className=style;return node}
+function open(item){const [kind,name,location,experience,,body]=item;get('title').textContent=name;get('meta').textContent=[kinds[kind],location,experience].join(' · ');get('body').textContent=body;get('date').textContent='আবেদনের শেষ দিন '+due(item);get('details').showModal()}
+function render(){const query=get('search').value.trim().toLowerCase();const matches=listings.filter(item=>(!active||item[0]===active)&&item.slice(1,5).join(' ').toLowerCase().includes(query));get('count').textContent=matches.length?number.format(matches.length)+'টি নমুনা বিজ্ঞপ্তি':'কোনো মিল পাওয়া যায়নি।';get('list').replaceChildren(...matches.map(item=>{const [kind,name,location,experience]=item;const card=el('article','','card'),text=el('div',''),button=el('button','বিস্তারিত দেখুন','action');button.setAttribute('aria-label',name+' · বিস্তারিত দেখুন');button.onclick=()=>open(item);text.append(el('span',kinds[kind],'type'),el('h3',name),el('p',location+' · '+experience));card.append(text,button);return card}))}
+const filters=get('filters');kinds.forEach((kind,index)=>{const button=el('button',kind);button.setAttribute('aria-pressed',String(index===0));button.onclick=()=>{active=index;[...filters.children].forEach((item,i)=>item.setAttribute('aria-pressed',String(i===index)));render()};filters.append(button)});
+const closing=listings.filter(item=>item[6]<=endOffset).sort((a,b)=>a[6]-b[6]);
+get('deadlines').append(...(closing.length?closing.map(item=>{const button=el('button',item[1],'deadline');button.append(el('span',due(item)));button.onclick=()=>open(item);return button}):[el('p','এই সপ্তাহে আর কোনো নমুনা আবেদনের শেষ দিন নেই।')]));
+get('search').addEventListener('input',render);render();
+</script></body></html>

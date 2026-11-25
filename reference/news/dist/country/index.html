@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="bn">
+<head><base href="/"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="বাংলাদেশ ও প্রবাসের খবরের জন্য বিডি এভরিডের নমুনা সংবাদপোর্টাল।"><title>বিডি এভরিডে | বাংলাদেশ ও প্রবাস</title>
+<link rel="icon" href="/favicon.ico?v=ink-red" sizes="16x16 32x32 48x48"><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=ink-red" sizes="any"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=ink-red">
+<link rel="stylesheet" href="/newspaper-theme.css?v=reader-menu"><meta name="theme-color" content="#171717"></head>
+<body><button class="skip-news" type="button" id="skip-news">মূল খবরে যান</button><div class="site-header-slot"><header class="site-header"><div class="wrap mast"><a class="paper-identity" href="/"><img src="/bd-everyday-logo.svg?v=ink-red" alt="BD Everyday" width="2080" height="358"><span lang="bn">প্রতিদিনের পাতায় বাংলাদেশ</span></a><div class="mast-actions"><button id="mobile-search-toggle" type="button" aria-label="খবর খুঁজুন" aria-controls="mast-search" aria-expanded="false"><svg aria-hidden="true" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></svg></button><div class="language-picker"><select id="language" aria-label="ভাষা / Language"><option value="bn" lang="bn">বাংলা</option><option value="en" lang="en">English</option></select></div><button id="theme" type="button"><span class="theme-label"></span><span class="theme-icon" aria-hidden="true"></span></button><button id="reader" type="button">প্রোফাইল</button><button id="menu-open" type="button" aria-haspopup="dialog" aria-label="মেনু"><svg aria-hidden="true" width="19" height="16" viewBox="0 0 20 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" style="vertical-align:middle"><path d="M2 3h16M2 8h16M2 13h11"/></svg> <span class="menu-word">মেনু</span></button></div></div><div class="wrap toolbar mast-search" id="mast-search"><strong id="today"></strong><form id="search"><input id="query" type="search" aria-label="খবর খুঁজুন" placeholder="খবর খুঁজুন" required><button>খুঁজুন</button></form></div>
+<nav aria-label="সংবাদ বিভাগ"><div class="wrap" id="navigation"></div></nav>
+</header></div>
+<section class="wrap breaking-bar" id="breaking-bar" aria-label="ব্রেকিং খবর" hidden><span class="breaking-label">ব্রেকিং</span><div class="breaking-line" id="breaking-line" aria-live="polite"></div><div class="breaking-controls" id="breaking-controls"><button type="button" id="breaking-prev" aria-label="আগের শিরোনাম">‹</button><button type="button" id="breaking-next" aria-label="পরের শিরোনাম">›</button></div></section>
+<main class="wrap" tabindex="-1" id="main-news"><div class="quick" id="quick"></div><div id="content"></div></main>
+<footer><div class="wrap edition-footer" id="edition-footer"></div></footer>
+<dialog id="menu" class="menu" aria-labelledby="menu-title"><div class="menu-top"><h2 id="menu-title">সব বিভাগ</h2><form method="dialog"><button>বন্ধ করুন</button></form></div><div id="menu-items"></div></dialog>
+<dialog id="video-player" class="video-modal" aria-labelledby="video-title"><form class="tools" method="dialog"><button type="submit">বন্ধ করুন</button></form><h2 id="video-title"></h2><video id="video-element" class="video" controls playsinline preload="metadata"></video><details id="video-transcript"><summary>ভিডিওর লেখা</summary><p id="video-description"></p></details></dialog>
+<aside class="privacy-notice" id="privacy-banner" hidden><div class="wrap"><span>এই নমুনায় পছন্দ ও পড়ার তালিকা ব্রাউজারে সংরক্ষিত হয়। <a href="#tool/privacy">গোপনীয়তা</a></span><button id="privacy-ok">ঠিক আছে</button></div></aside>
+<script src="/country-data.js"></script><script src="/country.js"></script><script src="/newsroom.js?v=permalinks"></script><script src="/demo-live.js"></script><script src="/live.js?v=archive"></script><script src="/feature-stories.js?v=diaspora-regions"></script><script src="/frontpage.js?v=reader-menu"></script><script src="/editorial.js?v=permalinks"></script><script>
+const categories={'home':'প্রচ্ছদ','latest':'সর্বশেষ','national':'বাংলাদেশ','probash':'প্রবাস','world':'বিশ্ব','business':'বাণিজ্য','sport':'খেলা','politics':'রাজনীতি','district':'জেলার খবর','entertainment':'বিনোদন','jobs':'চাকরি','education':'শিক্ষা','opinion':'মতামত','lifestyle':'জীবনযাপন','tech':'প্রযুক্তি','faith':'ধর্ম','culture':'সাহিত্য ও সংস্কৃতি','satire':'রসিকতা','fashion':'হালফ্যাশন','editorial':'সম্পাদকীয়','corporate':'কর্পোরেট','features':'ফিচার','media':'গণমাধ্যম','social':'সামাজিক মাধ্যম','health':'স্বাস্থ্য','events':'ইভেন্ট','science':'বিজ্ঞান'};
+const kl=photoRecord('kuala-lumpur');
+const dhaka=photoRecord('metro');
+const legacyStories=[
+['malaysia-workweek','probash','মালয়েশিয়ায় কর্মসপ্তাহের যাতায়াত গুছিয়ে নিন','কাজের পথে গণপরিবহন ও বিকল্প যাত্রাপথ বেছে নিন।','malaysia work commute',['কাজের শুরুর সময় ধরে আগের রাতে যাত্রাপথ দেখে নিন। প্রথম কয়েক দিন বাড়তি সময় রাখুন এবং একটি বিকল্প পথ লিখে রাখুন।']],
+['malaysia-family-visit','probash','কুয়ালালামপুরে পরিবার আসার আগে যা গুছিয়ে রাখবেন','আবাসন, যাতায়াত ও যোগাযোগের তথ্য একসঙ্গে রাখুন।','malaysia kuala lumpur family visit',['আবাসনের ঠিকানা ও বিমানবন্দর থেকে যাওয়ার পথ পরিবারের সঙ্গে শেয়ার করুন। আগমনের দিন কোথায় দেখা হবে, তা স্পষ্ট করে রাখুন।']],
+
+["shared-footpaths","editorial","ফুটপাত সবার চলার পথ","পথচারীর জন্য চলাচলের সুযোগকে নগর পরিকল্পনায় গুরুত্ব দেওয়ার আহ্বান।","editorial footpaths",["ফুটপাতের নকশা করার সময় শিশু, প্রবীণ ও হুইলচেয়ার ব্যবহারকারীদের চলাচলের কথা ভাবতে হবে। রাস্তা পারাপার থেকে বাসস্টপ পর্যন্ত পুরো পথটি কেমন, সেটিও দেখা জরুরি।"]],
+["small-office","corporate","ছোট অফিসে কাজের দায়িত্ব ভাগ করার উপায়","নতুন দলের কাজ ও সিদ্ধান্ত লিখে রাখার সহজ পদ্ধতি।","corporate teamwork",["প্রতিটি কাজের জন্য একজন দায়িত্বপ্রাপ্ত ব্যক্তি ও একটি সময়সীমা লিখুন। সপ্তাহ শেষে কী শেষ হয়েছে এবং কোথায় সহায়তা দরকার তা একসঙ্গে দেখুন।"]],
+["tea-stall-stories","features","চায়ের দোকানের আড্ডা থেকে গল্পের শুরু","পরিচিত পাড়ার ছোট ছোট স্মৃতি নিয়ে একটি ফিচার।","features tea neighborhood",["চায়ের দোকানের বেঞ্চে পাড়ার নানান প্রজন্মের দেখা হয়। কথা বলতে বলতে হারিয়ে যাওয়া দোকান, বদলে যাওয়া রাস্তা আর পরিচিত মুখের গল্প ফিরে আসে।"]],
+["newsroom-credit","media","প্রতিবেদনে ছবির সূত্র কেন থাকে","ছবির ক্যাপশন, সময় ও আলোকচিত্রীর নাম কী বলে।","media photography credit",["ক্যাপশনে ছবি তোলার স্থান ও সময় থাকলে পাঠক বুঝতে পারেন ছবিটি ঘটনার সঙ্গে কীভাবে যুক্ত। আলোকচিত্রীর নাম বা প্রতিষ্ঠানের উল্লেখ ছবির উৎস খুঁজতে সাহায্য করে।"]],
+["old-photo-context","social","পুরোনো ছবি নতুন পোস্টে দেখলে কী করবেন","শেয়ার করার আগে ছবির তারিখ ও প্রেক্ষাপট মিলিয়ে দেখুন।","social media photos",["ছবিটি প্রথম কোথায় প্রকাশিত হয়েছে দেখুন। পুরোনো পোস্টের তারিখ ও ক্যাপশনের সঙ্গে নতুন দাবিটি মিলিয়ে তারপর সিদ্ধান্ত নিন।"]],
+["health-notes","health","চিকিৎসকের সঙ্গে দেখা করার আগে কী লিখে রাখবেন","প্রশ্ন, আগের রিপোর্ট ও ওষুধের তালিকা গুছিয়ে নিন।","health appointment checklist",["যেসব প্রশ্ন করতে চান সেগুলো লিখে নিন। আগের প্রাসঙ্গিক রিপোর্ট ও বর্তমানে যে ওষুধগুলো ব্যবহার করেন তার তালিকা সঙ্গে রাখুন।"]],
+["community-event","events","পাড়ার বই বিনিময় আয়োজনের প্রস্তুতি","সময়, স্থান ও অংশগ্রহণের নিয়ম ঠিক করার একটি নমুনা পরিকল্পনা।","events book exchange",["অংশগ্রহণকারীরা কতটি বই আনতে পারবেন এবং কীভাবে বিনিময় হবে তা আগে জানিয়ে দিন। স্থান ঠিক করার পর প্রবেশপথ ও বসার ব্যবস্থা দেখে নিন।"]],
+["rain-diary","science","বাড়িতে বৃষ্টির দিনলিপি রাখুন","স্থানীয় আবহাওয়া পর্যবেক্ষণের সহজ একটি বিজ্ঞানচর্চা।","science weather diary",["একই সময়ে আকাশের অবস্থা ও বৃষ্টি হয়েছে কি না লিখে রাখুন। কয়েক সপ্তাহ পর দিনের নোটগুলো পাশাপাশি রেখে কী পরিবর্তন চোখে পড়ে তা দেখুন।"]],
+['paba-reading','district','পবায় পরিবার নিয়ে পাঠের বিকেল','স্থানীয় পাঠচক্র সাজানোর একটি নমুনা উদ্যোগ।','paba rajshahi reading',['পাড়ার শিশু ও অভিভাবকদের সঙ্গে ছোট একটি পাঠচক্র শুরু করা যায়। অংশগ্রহণকারীরা নিজেদের পছন্দের বই নিয়ে আসতে পারেন।']],
+['hathazari-weekend','district','হাটহাজারীতে ছুটির দিনের পরিকল্পনা','অল্প সময়ে কাছের এলাকা ঘুরে দেখার প্রস্তুতি।','hathazari chattogram weekend',['যাওয়া ও ফেরার সময় ধরে ছোট একটি ভ্রমণসূচি করুন। স্থানীয় যাতায়াতের পথ আগেই দেখে নিন।']],
+
+['device-backup','tech','ফোনের ছবি গুছিয়ে রাখার সহজ উপায়','ছবি বাছাই, নতুন ফোল্ডার ও ব্যাকআপ।','technology backup phone',['একই ছবির অতিরিক্ত কপি সরিয়ে তারিখ অনুযায়ী ফোল্ডার করুন। গুরুত্বপূর্ণ ছবির আরেকটি কপি রাখুন।']],
+['reading-traditions','faith','পরিবারের ধর্মীয় ঐতিহ্যের গল্প লিখে রাখুন','প্রজন্মের স্মৃতি সংরক্ষণের একটি উপায়।','faith traditions',['পরিবারের বয়োজ্যেষ্ঠদের কাছে উৎসব ও পারিবারিক রীতির গল্প শুনুন। অনুমতি নিয়ে তাঁদের স্মৃতিগুলো লিখে রাখুন।']],
+['poetry-evening','culture','বাড়িতে কবিতা পাঠের আসর','প্রিয় কবিতা নিয়ে বন্ধুদের সঙ্গে একটি সন্ধ্যা।','poetry literature culture',['অংশগ্রহণকারীদের ছোট একটি কবিতা নিয়ে আসতে বলুন। পাঠের পরে একে অপরের পাঠ শোনার অভিজ্ঞতা নিয়ে কথা বলুন।']],
+['umbrella','satire','ছাতার নিজের আবহাওয়া অফিস','বাড়িতে রেখে এলেই বৃষ্টি আসে।','satire humor',['ছাতার দাবি, সে আবহাওয়ার খবর জানে। প্রমাণ হিসেবে সে বলল, তাকে সঙ্গে নিলে নাকি বৃষ্টি থেমে যায়।']],
+['capsule','fashion','কম পোশাকে বেশি সাজের পরিকল্পনা','একই পোশাকের ভিন্ন সমন্বয়।','fashion style',['প্রথমে এমন রং বেছে নিন যা সহজে মেলে। পরে জুতা ও ছোট অনুষঙ্গ বদলে একই পোশাকে ভিন্ন সাজ তৈরি করুন।']],
+
+['civic-agenda','politics','স্থানীয় সভার কার্যসূচি পড়ার উপায়','সভা, সিদ্ধান্ত ও পরবর্তী পদক্ষেপের জন্য একটি পাঠক গাইড।','politics civic',['কার্যসূচি, সভার তারিখ এবং সভার পরে প্রকাশিত সিদ্ধান্ত আলাদা করে দেখুন।']],
+['district-market','district','রাজশাহীর বাজার ঘুরে দেখার পরিকল্পনা','এলাকার খাবার ও হস্তশিল্প খুঁজতে একটি ছোট পরিকল্পনা।','rajshahi district',['একই এলাকায় থাকা কয়েকটি বাজার বেছে নিন। যাওয়ার আগে খোলার সময় জেনে নিন এবং স্থানীয় ব্যবসায়ীদের সঙ্গে কথা বলার সময় রাখুন।']],
+['district-river','district','চট্টগ্রামে নদীর পাড়ে এক বিকেল','নদী ও শহরের ছবি তোলার একটি পরিকল্পনা।','chattogram district',['দিনের আলো থাকতে পৌঁছান এবং চলাচলের জন্য নির্ধারিত পথ ব্যবহার করুন। ফেরার যানবাহনের সময় আগেই দেখে রাখুন।']],
+['community-film','entertainment','বন্ধুদের সঙ্গে চলচ্চিত্র সন্ধ্যা','সবার পছন্দ মেলাতে ছোট একটি চলচ্চিত্র তালিকা তৈরি করুন।','film entertainment',['বয়সের উপযোগিতা, ভাষা ও সময় বিবেচনা করুন। দর্শকদের পছন্দ জানতে কয়েকটি চলচ্চিত্রের সংক্ষিপ্ত পরিচয় আগে পাঠিয়ে দিন।']],
+['job-prep','jobs','প্রথম চাকরির আবেদন সাজাবেন কীভাবে','জীবনবৃত্তান্ত, নমুনা কাজ ও আবেদনের সময়সীমা গুছিয়ে রাখুন।','jobs career',['প্রতিটি পদের জন্য প্রাসঙ্গিক দক্ষতা ও অভিজ্ঞতা আগে দিন। আবেদনের মূল বিজ্ঞপ্তি থেকে শেষ তারিখ যাচাই করুন।']],
+
+['school-library','education','স্কুলের পাঠাগারকে কীভাবে আরও কাজে লাগানো যায়','শিক্ষার্থীদের জন্য বই বেছে নেওয়ার সুযোগ বাড়াতে কয়েকটি উদ্যোগ।','school library education',['সপ্তাহে একটি নির্দিষ্ট সময় শিক্ষার্থীদের নিজের পছন্দের বই পড়তে দেওয়া যায়। পড়া বই নিয়ে সহপাঠীদের সঙ্গে সংক্ষিপ্ত আলোচনা উৎসাহ বাড়াতে পারে।']],
+['walking-city','opinion','হাঁটার উপযোগী শহর কেমন হতে পারে','মতামত · ফুটপাত, রাস্তা পারাপার ও গণপরিবহনের সংযোগ।','opinion walking city',['সুন্দর ফুটপাতের পাশাপাশি নিরাপদে রাস্তা পার হওয়ার সুযোগ দরকার। গণপরিবহনের স্টপে পৌঁছানোর পথটিও পরিকল্পনায় রাখা উচিত।']],
+
+['malaysia-arrival','probash','মালয়েশিয়ায় নতুন প্রবাসীদের প্রথম সপ্তাহ','যাতায়াত, ফোন ও বাসা খোঁজার প্রস্তুতি।','malaysia kuala lumpur expat',[ 'থাকার ঠিকানা, বিমানবন্দর থেকে গন্তব্যে যাওয়ার ব্যবস্থা এবং যাঁর সঙ্গে যোগাযোগ করবেন তাঁর নম্বর আগে থেকেই লিখে রাখুন। অফলাইনে মানচিত্র রাখলে নতুন এলাকায় পথ খুঁজতে সুবিধা হবে।','বাসা দেখার সময় যাতায়াতের সময়, মাসিক ভাড়ায় কী অন্তর্ভুক্ত এবং লিখিত চুক্তির শর্তগুলো মিলিয়ে দেখুন।'],kl],
+['bangladesh-brief','national','আজকের বাংলাদেশ ৫ মিনিটে','জাতীয় ও নাগরিক খবরের দৈনিক সংক্ষেপের নমুনা।','bangladesh news dhaka',['দৈনিক সংক্ষেপে জাতীয় খবর, জেলা সংবাদ ও জনজীবনের গুরুত্বপূর্ণ তথ্য থাকবে। পাঠকের দ্রুত বুঝতে সুবিধা হয় এমনভাবে প্রতিটি খবরের সঙ্গে সময় ও মূল সূত্র দেখানো হবে।'],dhaka],
+['expat-visit','probash','প্রবাস থেকে দেশে ফেরার প্রস্তুতি','পরিবারের সঙ্গে ছুটির আগে দরকারি তালিকা।','probash travel bangladesh',['যাত্রার তারিখ, আবাসন ও দেশে পৌঁছে যাতায়াত আগেই ঠিক করে নিন। টিকিটের তথ্য এবং জরুরি যোগাযোগের নম্বর পরিবারের সঙ্গে শেয়ার করুন।']],
+['dhaka-journey','national','ঢাকায় বের হওয়ার আগে যা দেখবেন','যাত্রার সময় ও বিকল্প পথ ঠিক করার সহজ উপায়।','dhaka traffic',['ব্যস্ত সময়ে বের হলে হাতে কিছু বাড়তি সময় রাখুন। গন্তব্যের কাছের গণপরিবহন স্টপ ও বিকল্প পথ আগেই দেখে নিন।']],
+['world-brief','world','বিশ্ব সংবাদ পড়ার সহজ উপায়','একটি ঘটনার মূল তথ্য ও প্রেক্ষাপট কীভাবে বুঝবেন।','world news',['খবরের প্রকাশের সময় এবং প্রতিবেদনের মূল সূত্র দেখুন। একই ঘটনার একাধিক প্রতিবেদন পড়লে কোন তথ্য নিশ্চিত হয়েছে আর কোন প্রশ্নের উত্তর বাকি আছে, তা বোঝা সহজ হয়।']],
+['home-budget','business','মাসিক বাজারের বাজেট সাজাবেন যেভাবে','পরিবারের নিয়মিত খরচ এক জায়গায় রাখুন।','business grocery budget',['গত মাসের বাজার খরচ লিখে খাদ্য, গৃহস্থালি সামগ্রী ও যাতায়াত আলাদা করুন। সপ্তাহে একবার মোট খরচ মিলিয়ে দেখলে মাসের বাকি বাজেট ঠিক করা সহজ হয়।']],
+['street-cricket','sport','পাড়ার ক্রিকেট আয়োজনের প্রস্তুতি','খেলার সময়, মাঠ ও দল গুছিয়ে নিন।','sports cricket',['কয়টি দল খেলবে তার ভিত্তিতে ম্যাচের দৈর্ঘ্য ঠিক করুন। আগে থেকেই মাঠের সময়, খেলার নিয়ম ও স্কোর রাখার দায়িত্ব ভাগ করে নিন।']],
+['weekend','lifestyle','পরিবারের সঙ্গে ঢাকায় ছুটির দিন','এক দিনের পরিকল্পনায় সময় ও খরচের হিসাব।','lifestyle weekend dhaka',['কাছাকাছি দুটি গন্তব্য বেছে নিলে যাতায়াতে কম সময় যায়। যাওয়ার আগে খোলার সময় দেখে নিন এবং খাবারের বিরতি রাখুন।']],
+['expat-family','probash','দূরে থেকেও পরিবারের সঙ্গে যোগাযোগ','কাজ ও পরিবারের সময় মেলানোর কয়েকটি উপায়।','expat family',['দুই দেশের সময় মিলিয়ে এমন একটি নির্দিষ্ট সময় বেছে নিন যখন সবাই কথা বলতে পারে। জরুরি যোগাযোগের জন্য পরিবারের কাছে বিকল্প নম্বর রাখুন।']]
+];
+const keyFor=name=>'bdeveryday.'+name;
+function read(name,fallback){try{return JSON.parse(localStorage.getItem(keyFor(name)))??fallback}catch{return fallback}}
+function write(name,value){try{localStorage.setItem(keyFor(name),JSON.stringify(value));return true}catch{return false}}
+const safe=value=>String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+const sampleStories=[...featureTuples(),...legacyStories];
+const draftStories=read('draftStories',[]);
+const stories=[...draftStories.map(item=>[item.id,item.category,safe(item.title),safe(item.summary),safe(item.title),item.body.split(/\n+/).filter(Boolean).map(safe)]),...sampleStories];
+let saved=read('saved',[]);
+const get=id=>document.getElementById(id);
+const link=(type,value)=>type==='story'&&!value.startsWith('local-')?articleHref(value):(type==='section'||type==='country')?deskUrl(type,value):'#'+type+'/'+encodeURIComponent(value);
+const card=s=>'<article class="card"><a class="label" href="'+link('section',s[1])+'">'+categories[s[1]]+'</a><h3><a href="'+link('story',s[0])+'">'+s[2]+'</a></h3><p>'+s[3]+'</p></article>';
+const block=(title,items)=>'<section class="section"><h2>'+title+'</h2><div class="grid">'+items.map(card).join('')+'</div></section>';
+const secondary=stories.find(s=>s[0]==='malaysia-arrival');
+const headline=s=>'<a href="'+link('story',s[0])+'"><small>'+categories[s[1]]+'</small><h3>'+s[2]+'</h3></a>';
+const extraSections=['editorial','corporate','features','media','social','health','events','science'];
+const extraDesk=()=>'<section class="section"><h2>বিশেষ বিভাগ</h2><div class="extra-desk">'+extraSections.map(key=>'<a href="'+link('section',key)+'">'+categories[key]+'</a>').join('')+'</div></section>';
+const latest=()=>orderedStories().slice(0,6);
+const picks=[secondary,stories.find(s=>s[0]==='home-budget'),stories.find(s=>s[0]==='weekend')];
+const videoLibrary=managedContent.video?.length?managedContent.video:[
+  {id:'bulletin',type:'সংবাদ সংক্ষেপ',title:'বিডি এভরিডে ভিডিও বুলেটিন',duration:'০:০৯',src:'/bulletin.mp4',poster:dhaka[0],description:'বিডি এভরিডের নমুনা ভিডিও বুলেটিন। বিষয়: বাংলাদেশ, প্রবাস ও দৈনন্দিন জীবন।'},
+  {id:'probash',type:'প্রবাস',title:'মালয়েশিয়ায় নতুনদের জন্য একটি টিপস',duration:'০:০৭',description:'অফলাইনে মানচিত্র ও জরুরি যোগাযোগের নম্বর রাখুন।'},
+  {id:'dhaka',type:'জীবনযাপন',title:'পরিবার নিয়ে ঢাকায় একদিন',duration:'০:০৭',description:'কাছাকাছি দুটি জায়গা বেছে নিন। যাওয়ার আগে খোলার সময় দেখে নিন।'},
+  {id:'books',type:'সাহিত্য ও সংস্কৃতি',title:'বন্ধুদের সঙ্গে কবিতা পাঠ',duration:'০:০৭',description:'প্রত্যেকে একটি কবিতা আনুন এবং পালা করে পড়ুন।'},
+  {id:'market',type:'দৈনন্দিন জীবন',title:'সপ্তাহের বাজারের পরিকল্পনা',duration:'০:০৭',description:'বাজারের তালিকা লিখুন এবং পণ্যগুলো বিভাগ অনুযায়ী সাজান।'},
+  ...additionalVideos()
+];
+const videoPoster=clip=>clip.poster??'/videos/'+safe(clip.id)+'.webp';
+const videoSource=clip=>clip.src??'/videos/'+safe(clip.id)+'.mp4';
+function videoCard(clip,featured=false){
+return '<button class="video-card'+(featured?' video-feature':'')+'" type="button" data-video="'+safe(clip.id)+'"><span class="thumbnail"><img src="'+safe(videoPoster(clip))+'" alt="" loading="lazy"><span class="play-icon" aria-hidden="true">▶</span><span class="video-time">'+safe(clip.duration)+'</span></span><span class="video-card-copy"><small>'+safe(clip.type)+'</small><strong>'+safe(clip.title)+'</strong></span></button>';
+}
+function videoDesk(isGallery=false){
+const [featured,...rest]=videoLibrary;
+return '<section class="video-desk" aria-label="ভিডিও"><div class="video-desk-head"><h2>'+(isGallery?'ভিডিও গ্যালারি':'ভিডিও')+'</h2>'+(isGallery?'<span>নমুনা ক্লিপ</span>':'<a href="#tool/video">সব ভিডিও</a>')+'</div><div class="video-grid">'+videoCard(featured,true)+'<div class="video-stack">'+(isGallery?rest:rest.slice(0,4)).map(clip=>videoCard(clip)).join('')+'</div></div></section>';
+}
+function article(s){const [,key,title,summary,,paragraphs]=s;return '<article class="reading"><a href="'+link('section',key)+'">'+categories[key]+'</a><h1>'+title+'</h1><p>'+summary+'</p>'+(s.shared?newsroomMetadata(articleRecord(s[0])):'<span class="badge">নমুনা প্রতিবেদন</span> <time>'+editorialDate(demoStoryDate(s[0]))+'</time>')+articleReadingTools(s)+'<div class="tools"><button data-save="'+s[0]+'">'+(saved.includes(s[0])?'পড়ার তালিকা থেকে সরান':'পড়ার তালিকায় রাখুন')+'</button>'+(s[0].startsWith('local-')?'':'<button data-share data-article="'+s[0]+'">'+shareButtonLabel()+'</button>'+articleShare(s[0]))+'<small id="feedback" role="status"></small></div>'+storyFigure(s)+paragraphs.map(p=>'<p>'+p+'</p>').join('')+'</article>'}
+const utilities={...editorialLabels,topics:'আমার সংস্করণ',about:'আমাদের সম্পর্কে',live:'লাইভ আপডেট','live-desk':'লাইভ আপডেট পরিচালনা',saved:'পড়ার তালিকা',archive:'সংবাদ আর্কাইভ',photo:'ছবির পাতা',paper:'আজকের পত্রিকা · ই-পেপার',desk:'নিউজরুম',mydistrict:'আমার জেলা',video:'ভিডিও',privacy:'গোপনীয়তা',profile:'পাঠক প্রোফাইল',connections:'সামাজিক মাধ্যম ও অ্যাপ'};
+const deskCategories=Object.entries(categories).filter(([key])=>!['home','latest'].includes(key));
+const archiveDay='2026-11-24';
+function utility(value){
+if(Object.hasOwn(editorialLabels,value))return editorialUtility(value);
+if(value==='live')return liveIndex();
+if(value==='live-desk')return liveDeskPage();
+if(value==='video')return videoDesk(true);
+if(value==='privacy')return '<section class="section"><h2>গোপনীয়তা</h2><p>এই নমুনা পোর্টাল পড়ার তালিকা, পাঠক নাম, প্রদর্শন পছন্দ এবং নমুনা সংবাদ এই ব্রাউজারে সংরক্ষণ করে। নমুনা পড়তে কোনো অ্যাকাউন্ট লাগে না।</p><p>ব্রাউজারের সাইট ডেটা মুছলে এই পছন্দ ও লেখা মুছে যাবে।</p></section>';
+if(value==='connections')return '<section class="section"><h2>সামাজিক মাধ্যম ও অ্যাপ</h2><p>'+facebookPageLink()+'</p><p>X, Instagram, YouTube ও Google News-এর জন্য বিডি এভরিডের নিজস্ব ঠিকানা যোগ করা বাকি।</p><p>Google Play ও App Store-এ বিডি এভরিডে অ্যাপ প্রকাশের পরে ডাউনলোড লিংক এখানে দেখা যাবে।</p></section>';
+if(value==='profile')return '<section class="section"><h2>পাঠক প্রোফাইল</h2><p>নমুনা প্রোফাইল এই ব্রাউজারে থাকে।</p><form class="stack" id="profile-form"><label>প্রদর্শনের নাম<input required name="name" maxlength="60" value="'+safe(read('readerName',''))+'"></label><button>নাম সংরক্ষণ করুন</button><span id="reader-status" role="status"></span></form><p><a href="#tool/saved">পড়ার তালিকা খুলুন</a></p></section>';
+
+if(value==='saved'){const selected=stories.filter(s=>saved.includes(s[0]));return selected.length?block(utilities.saved,selected):'<p>আপনার পড়ার তালিকা খালি। কোনো প্রতিবেদন খুলে সেটি তালিকায় রাখুন।</p>'}
+if(value==='photo')return photoEdition();
+if(value==='topics')return topicsPage();
+if(value==='about')return aboutPage();
+if(value==='archive')return archivePage();
+if(value==='paper')return edition();
+if(value==='mydistrict')return myDistrictPanel();
+return '<section class="section"><h2>নিউজরুম</h2><div id="shared-newsroom"><p role="status">নিউজরুম লোড হচ্ছে…</p></div></section>';
+}
+const editions={
+morning:[['national','politics','district'],['world','business','corporate'],['probash','opinion','editorial'],['sport','entertainment','lifestyle']],
+evening:[['national','district','events'],['world','science','tech'],['features','media','social'],['health','culture','education']]
+};
+const earlierEditions={
+morning:[['district'],['business'],['sport'],['entertainment']],
+evening:[['district','business'],['science'],['education'],['sport','entertainment']]
+};
+const weekendEditions={
+morning:[['district'],['sport','jobs'],['features','culture'],['editorial','media']],
+evening:[['district','events'],['health','faith'],['lifestyle','culture'],['features','media']]
+};
+const bengaliDigits=new Intl.NumberFormat('bn-BD');
+function edition(){
+return '<section class="section paper"><h2>আজকের পত্রিকা</h2><div class="paper-controls"><label>তারিখ <input type="date" id="edition-date" value="'+archiveDay+'"></label><label>সংস্করণ <select id="edition-select"><option value="morning">প্রথম সংস্করণ</option><option value="evening">দ্বিতীয় সংস্করণ</option></select></label><button data-print>প্রিন্ট বা পিডিএফ</button></div><div id="edition-body">'+editionPage(archiveDay,'morning',0)+'</div></section>';
+}
+function editionPage(date,key,page){
+const managedPages=managedContent.edition?.find(issue=>issue.date===date&&issue.edition===key)?.pages;
+if(!managedPages&&![archiveDay,'2026-11-23','2026-11-22'].includes(date))return '<p role="status">এই তারিখের কোনো নমুনা সংস্করণ নেই।</p>';
+const pages=managedPages??(date===archiveDay?editions:date==='2026-11-23'?earlierEditions:weekendEditions)[key],topics=pages[page];
+const jump=(number,label,current=false)=>'<button data-page="'+number+'"'+(current?' aria-current="page"':'')+'>'+label+'</button>';
+return '<div class="paper-pages">'+(page>0?jump(page-1,'আগের পাতা'):'')+pages.map((_,i)=>jump(i,bengaliDigits.format(i+1),i===page)).join('')+(page<pages.length-1?jump(page+1,'পরের পাতা'):'')+'</div><div class="paper-sheet"><h2>বিডি এভরিডে</h2><p>'+editorialDate(date)+' · '+(key==='morning'?'প্রথম সংস্করণ':'দ্বিতীয় সংস্করণ')+' · পাতা '+bengaliDigits.format(page+1)+'</p><h3>'+topics.map(topic=>categories[topic]).join(' · ')+'</h3>'+sampleStories.filter(s=>demoStoryDate(s[0])===date&&topics.includes(s[1])).map(s=>'<article><h3><a href="'+link('story',s[0])+'">'+s[2]+'</a></h3><p>'+s[3]+'</p></article>').join('')+'</div>';
+}
+function changeEdition(page=0){
+get('edition-body').innerHTML=editionPage(get('edition-date').value,get('edition-select').value,page);
+}
+const searchSections=Object.entries(categories).filter(([key])=>!['home','latest'].includes(key));
+function searchResults(query,category=''){
+const words=query.trim().normalize('NFC').toLowerCase().split(/\s+/).filter(Boolean);
+const matches=words.length?orderedStories().filter(s=>{
+  if(category&&s[1]!==category)return false;
+  const text=[...s.slice(2,5),...s[5],categories[s[1]]].join(' ').normalize('NFC').toLowerCase();
+  return words.every(word=>text.includes(word));
+}):[];
+return matches.length?block('খোঁজার ফলাফল',matches):'<p class="empty" role="status">কোনো খবর পাওয়া যায়নি।</p>';
+}
+function searchPage(query){
+return '<div class="search-refine"><label>বিভাগ অনুযায়ী খুঁজুন <select id="search-category"><option value="">সব বিভাগ</option>'+searchSections.map(([key,name])=>'<option value="'+key+'">'+name+'</option>').join('')+'</select></label></div><div id="search-results">'+searchResults(query)+'</div>';
+}
+get('skip-news').onclick=()=>get('main-news').focus();
+const language=get('language');
+const englishEdition=document.documentElement.lang==='en';
+function editionUrl(english){
+  const path=location.pathname.replace(/^\/en(?=\/|$)/,'')||'/';
+  return (english?'/en':'')+path+location.search+(location.hash==='#tool/english'?'':location.hash);
+}
+language.value=englishEdition?'en':'bn';
+language.onchange=()=>location.assign(editionUrl(language.value==='en'));
+const sampleBreaking=['bangladesh-brief','malaysia-arrival','dhaka-journey'];
+let breakingIndex=0;
+let breakingItems=[];
+function showBreakingHeadline(){
+const story=breakingItems[breakingIndex];
+if(story?.liveEvent){
+get('breaking-line').innerHTML='<a href="'+liveLink(story.liveEvent.id)+'"><span class="coverage-status live-now">'+liveStatus(story.liveEvent)+'</span> '+safe(story.liveEvent.title)+'</a>';
+return;
+}
+get('breaking-line').innerHTML=story?'<a href="'+link('story',story[0])+'">'+story[2]+'</a>'+(story.shared?'':' <small>· নমুনা</small>'):'';
+}
+function refreshBreakingBar(inEnglish){
+const ids=[...publishedArticles.filter(item=>item.breaking).map(item=>item.id),...draftStories.filter(entry=>entry.breaking===true).map(entry=>entry.id),...sampleBreaking];
+breakingItems=ids.map(id=>stories.find(story=>story[0]===id)).filter(Boolean);
+const active=firstLiveEvent();
+if(active)breakingItems.unshift({liveEvent:active});
+breakingIndex=Math.min(breakingIndex,Math.max(0,breakingItems.length-1));
+get('breaking-bar').hidden=!breakingItems.length;
+get('breaking-controls').hidden=breakingItems.length<2;
+showBreakingHeadline();
+}
+function stepBreaking(offset){
+if(!breakingItems.length)return;
+breakingIndex=(breakingIndex+offset+breakingItems.length)%breakingItems.length;
+showBreakingHeadline();
+}
+get('breaking-prev').onclick=()=>stepBreaking(-1);
+get('breaking-next').onclick=()=>stepBreaking(1);
+function render(){
+const route=location.hash.slice(1);
+const [type,encoded='']=route?route.split('/'):currentArticleId()?['story',currentArticleId()]:document.body.dataset.desk?[document.body.dataset.desk,document.body.dataset.key]:[];let value='';try{value=decodeURIComponent(encoded)}catch{}
+if(route&&((type==='section'&&Object.hasOwn(categories,value))||(type==='country'&&Object.hasOwn(countryNames,value)))){location.replace(deskUrl(type,value));return}
+if(type==='tool'&&value==='english'){location.replace(editionUrl(true));return}
+const inEnglish=englishEdition;
+language.value=inEnglish?'en':'bn';
+refreshBreakingBar(inEnglish);
+
+const story=type==='story'?stories.find(s=>s[0]===value):null;
+const section=story?story[1]:type==='section'&&Object.hasOwn(categories,value)?value:!type&&/^(?:\/en)?\/country\/?$/.test(location.pathname)?'district':'home';
+get('navigation').innerHTML=primaryNavigation(section,type);
+get('query').value=type==='search'?value:'';
+if(type==='tool'&&Object.hasOwn(utilities,value)){
+get('content').innerHTML=utility(value);
+if(value==='desk')void mountSharedDesk();
+if(value==='inbox')void mountInbox();
+if(value==='live')void refreshLive();
+if(value==='live-desk')void mountLiveDesk();
+}
+else if(type==='live'){get('content').innerHTML=liveIndex();void refreshLive(value)}
+else if(type==='country'&&Object.hasOwn(countryNames,value)){get('content').innerHTML=diasporaPage(value)}
+else if(story){if(englishEdition&&story.shared)void translateStory(articleRecord(story[0]),true);get('content').innerHTML=translationNotice(articleRecord(story[0]))+article(story)+editorialArticlePanel(story[0])+block('একই বিভাগের আরও খবর',stories.filter(s=>s[1]===section&&s!==story));if(!stories.some(s=>s[1]===section&&s!==story))get('content').lastElementChild.remove();void mountArticleNotes(story[0])}
+else if(type==='search'){get('content').innerHTML=searchPage(value)}
+else if(type==='story'){if(!currentArticleId())get('content').textContent='এই প্রতিবেদনটি এখন পাওয়া যাচ্ছে না।'}
+else if(section==='district')renderCountry();
+else get('content').innerHTML=section==='home'?frontPage():sectionEdition(section);
+document.title=(story?story[2]:type==='search'?'খবর খুঁজুন':type==='country'&&Object.hasOwn(countryNames,value)?countryNames[value]:type==='live'?liveLabel():type==='tool'&&Object.hasOwn(utilities,value)?utilities[value]:categories[section])+(inEnglish?' | BD Everyday':' | বিডি এভরিডে');
+}
+const menu=get('menu');
+get('menu-items').innerHTML=menuDirectory();
+get('menu-open').onclick=()=>menu.showModal();
+get('menu-items').onclick=event=>{if(event.target.closest('a'))menu.close()};
+get('reader').onclick=()=>location.hash=link('tool','profile');
+get('privacy-banner').hidden=read('privacySeen',false);
+get('privacy-ok').onclick=()=>{write('privacySeen',true);get('privacy-banner').hidden=true};
+const slogan=document.querySelector('.paper-identity span');
+if(slogan) slogan.textContent=managedCopy('slogan',slogan.textContent);
+get('quick').innerHTML=readerShortcuts();
+get('edition-footer').innerHTML=footerLinks();
+document.documentElement.classList.toggle('large-reading',read('largeReading',false)===true);
+function setTheme(dark){document.documentElement.classList.toggle('night',dark);get('theme').setAttribute('aria-pressed',String(dark));const button=get('theme');const label=dark?'দিনের মোড':'রাতের মোড';button.setAttribute('aria-label',label);button.querySelector('.theme-label').textContent=label}
+setTheme(read('dark',false));
+get('theme').onclick=()=>{const dark=!document.documentElement.classList.contains('night');setTheme(dark);write('dark',dark)};
+get('content').addEventListener('submit',event=>{
+if(event.target.matches('[data-reader-form]')){event.preventDefault();void submitReaderForm(event.target);return}
+if(event.target.id==='profile-form'){
+event.preventDefault();
+const name=new FormData(event.target).get('name').trim();
+get('reader-status').textContent=name&&write('readerName',name)?'নাম সংরক্ষিত হয়েছে।':'নাম সংরক্ষণ করা যায়নি।';
+return;
+}
+if(event.target.id==='my-district-form'){
+ event.preventDefault();
+ const id=new FormData(event.target).get('district');
+ if(id===''||districtName(id))write('myDistrict',id);
+ render();
+ get('saved-district')?.focus();
+}
+
+});
+get('content').addEventListener('change',event=>{
+if(event.target.id==='edition-date'||event.target.id==='edition-select')changeEdition();
+if(['edition-district','edition-country'].includes(event.target.id)){
+  const id=event.target.id;
+  write(id==='edition-district'?'myDistrict':'editionCountry',event.target.value);
+  render();
+  get(id).focus();
+}
+if(event.target.id==='search-category')get('search-results').innerHTML=searchResults(get('query').value,event.target.value);
+if(['archive-date','archive-category'].includes(event.target.id))refreshArchive();
+});
+get('content').addEventListener('click',async event=>{
+if(togglePremiumButton(event))return;
+const archiveDate=event.target.closest('button[data-archive-date]');
+if(archiveDate){
+get('archive-date').value=archiveDate.dataset.archiveDate;
+refreshArchive();
+return;
+}
+const video=event.target.closest('button[data-video]');
+if(video){
+const clip=videoLibrary.find(item=>item.id===video.dataset.video);
+if(!clip)return;
+const player=get('video-element');
+get('video-title').textContent=clip.title;
+get('video-description').textContent=clip.description;
+get('video-transcript').open=false;
+player.poster=videoPoster(clip);
+player.src=videoSource(clip);
+get('video-player').showModal();
+player.play().catch(()=>{});
+return;
+}
+if(event.target.closest('[data-retry-translation]')){const item=articleRecord(currentArticleId() || decodeURIComponent(location.hash.slice(7)));if(item){translationState.delete(item);render()}return}
+const page=event.target.closest('button[data-page]');
+if(page){changeEdition(Number(page.dataset.page));get('edition-body').querySelector('[aria-current]').focus();return}
+const save=event.target.closest('button[data-save]');
+if(save){
+const id=save.dataset.save;
+const next=saved.includes(id)?saved.filter(item=>item!==id):[...saved,id];
+if(write('saved',next)){saved=next;save.textContent=saved.includes(id)?'পড়ার তালিকা থেকে সরান':'পড়ার তালিকায় রাখুন'}
+else get('feedback').textContent='পড়ার তালিকা সংরক্ষণ করা যায়নি।';
+return;
+}
+if(event.target.closest('button[data-print]')){window.print();return}
+const shareButton=event.target.closest('button[data-share]');
+if(shareButton){await shareArticle(shareButton);return}
+const tab=event.target.closest('button[data-feed]');
+if(!tab)return;
+for(const button of tab.parentElement.children)button.setAttribute('aria-pressed',String(button===tab));
+get('headlines').innerHTML=(tab.dataset.feed==='latest'?latest():managedStories('picks',picks)).map(headline).join('');
+});
+get('today').textContent=new Intl.DateTimeFormat('bn-BD',{dateStyle:'full',timeZone:'Asia/Dhaka'}).format(new Date());
+get('search').onsubmit=e=>{e.preventDefault();const q=get('query').value.trim();if(q)location.hash=link('search',q)};
+const videoDialog=get('video-player');
+videoDialog.addEventListener('close',()=>{
+const player=get('video-element');
+player.pause();
+player.removeAttribute('src');
+player.load();
+});
+window.addEventListener('popstate',()=>render());
+window.addEventListener('hashchange',()=>{render();window.scrollTo(0,0)});
+const requestedQuery=new URLSearchParams(location.search).get('q')?.trim();
+if(requestedQuery&&!location.hash)history.replaceState(null,'',editionHome()+link('search',requestedQuery));
+const oldArticle=location.hash.match(/^#story\/([a-z0-9-]{1,96})$/);
+if(oldArticle&&!oldArticle[1].startsWith('local-'))location.replace(articleHref(oldArticle[1]));
+else render();
+if(!/^#(?:tool\/live$|live\/)/.test(location.hash))pollLive();
+setInterval(pollLive,20000);
+document.addEventListener('visibilitychange',pollLive);
+void loadPublished().then(()=>{if(publishedArticles.length&&location.hash!=='#tool/desk')render()});
+</script><button class="back-to-top" type="button" hidden><svg aria-hidden="true" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></button><script src="/back-to-top.js" defer></script><script src="/floating-header.js?v=reader-menu" defer></script></body></html>

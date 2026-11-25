@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BD Everyday | দরদাম</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f6f7f2;color:#142720;font:16px/1.6 system-ui,sans-serif}button,input,select{font:inherit}button{cursor:pointer}button,input,select,a{outline-offset:4px}:focus-visible{outline:3px solid #ab6419}.wrap{width:min(1100px,92%);margin:auto}header{background:#fff;border-bottom:1px solid #dce4da}.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0}.brand{font-weight:900;letter-spacing:-.045em;font-size:clamp(23px,5vw,34px);color:#153b2d;text-decoration:none}.brand b{color:#09845c}.badge{font-size:14px;padding:4px 10px;border:1px solid #cedfd2;border-radius:6px;color:#245340}.hero{background:#123f31;color:#fff;padding:44px 0 40px}.hero small{color:#d6ecb1;font-weight:700;font-size:15px}.hero h1{font-size:clamp(36px,7vw,68px);line-height:1.14;margin:8px 0}.hero p{color:#dceadf;margin:0 0 20px}.search{display:block;width:min(610px,100%);padding:12px 16px;border:1px solid #b9cfc1;border-radius:8px;background:white}.controls{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:24px 0 14px}.filters{display:flex;gap:8px;flex-wrap:wrap}.filters button,select{padding:7px 12px;background:#fff;border:1px solid #c7d7cc;border-radius:7px;color:#183d2f}.filters button[aria-pressed=true]{background:#123f31;color:white;border-color:#123f31}h2{margin:0}#count{margin:3px 0 15px;color:#496057}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.card{border:1px solid #d8e2d8;border-radius:12px;background:white;padding:19px;display:flex;flex-direction:column;align-items:start}.category{color:#166547;background:#e9f3e9;padding:3px 9px;border-radius:4px;font-size:14px;font-weight:700}.card h3{font-size:21px;line-height:1.35;margin:12px 0 4px}.detail{color:#4e6056;margin:0 0 13px}.pricing{width:100%;border-top:1px solid #e2e8e1;padding-top:12px;margin-top:auto}.pricing strong{font-size:27px;color:#14523b;display:block}.action{background:#dbeeae;color:#213d22;border:0;border-radius:7px;padding:9px 13px;font-weight:750;margin-top:12px}.note{color:#4e6056;margin:20px 0 30px}dialog{color:#142720;border:0;border-radius:13px;padding:22px;width:min(640px,94vw);max-height:90vh;overflow:auto}dialog::backdrop{background:#122b21ad}dialog form{text-align:right}dialog form button{border:1px solid #ccd9ce;background:white;border-radius:6px;padding:5px 10px}.table{overflow:auto}table{width:100%;border-collapse:collapse;text-align:left}td,th{border-bottom:1px solid #dce6db;padding:8px;white-space:nowrap}th{background:#e8f1e6}tbody tr:first-child{background:#f2f8e9}a{color:#146247}footer{background:#123f31;color:#e8f2e9;padding:18px 0}@media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:490px){.grid{grid-template-columns:1fr}.hero{padding:30px 0}}
+</style>
+</head>
+<body>
+<header><div class="wrap bar"><a class="brand" href="./"><b>BD</b> Everyday</a><span class="badge">নমুনা সংস্করণ</span></div></header>
+<section class="hero"><div class="wrap"><small>বাংলাদেশের কেনাকাটার মূল্যতালিকা</small><h1>দাম জানুন, বুঝে কিনুন।</h1><p>একই পণ্যের দাম ও ডেলিভারি খরচ একসঙ্গে তুলনা করুন।</p><input id="search" class="search" type="search" aria-label="পণ্য খুঁজুন" placeholder="পণ্য খুঁজুন · ফ্যান, স্কুল ব্যাগ, কেটলি"></div></section>
+<main class="wrap">
+<div class="controls"><div id="filters" class="filters" aria-label="পণ্যের বিভাগ"></div><select id="sort" aria-label="দাম অনুযায়ী সাজান"><option value="featured">বাছাই করা</option><option value="low">কম দাম আগে</option><option value="high">বেশি দাম আগে</option></select></div>
+<h2>পণ্যের দরদাম</h2><p id="count" aria-live="polite"></p><div id="grid" class="grid"></div>
+<p class="note">সব দাম ও ডেলিভারি খরচ উদাহরণ হিসেবে দেখানো হয়েছে। ডেলিভারি এলাকা ঢাকা ধরে হিসাব করা হয়েছে।</p>
+</main>
+<footer><div class="wrap">BD Everyday · দরদাম ও কেনাকাটা</div></footer>
+<dialog id="compare" aria-labelledby="product"><form method="dialog"><button>বন্ধ করুন</button></form><h2 id="product"></h2><p>সবচেয়ে কম মোট খরচের অফারটি প্রথমে দেখানো হয়েছে।</p><div class="table"><table><thead><tr><th scope="col">দোকান</th><th scope="col">পণ্যের দাম</th><th scope="col">ডেলিভারি</th><th scope="col">মোট</th></tr></thead><tbody id="offers"></tbody></table></div><p class="note">COD.com.bd একই মালিকানাধীন। টেবিলের দাম ও অফারগুলো নমুনা।</p><a href="https://cod.com.bd/" target="_blank" rel="noopener">COD.com.bd-এর হোমপেজ দেখুন</a></dialog>
+<script>
+const categories=['সব পণ্য','ইলেকট্রনিকস','স্কুল সামগ্রী','ঘর ও রান্নাঘর'];
+const products=[
+{category:1,name:'রিচার্জেবল ফ্যান',detail:'১২ ইঞ্চি · ৩ গতির সেটিং',keywords:'rechargeable fan',offers:[[2350,110],[2290,190],[2490,0]]},
+{category:2,name:'স্কুল ব্যাগ',detail:'২০ লিটার · প্যাডযুক্ত স্ট্র্যাপ',keywords:'school bag backpack',offers:[[920,80],[880,150],[990,70]]},
+{category:3,name:'ইলেকট্রিক কেটলি',detail:'১.৮ লিটার · স্টেইনলেস স্টিল',keywords:'electric kettle',offers:[[1190,90],[1120,100],[1280,0]]},
+{category:1,name:'পাওয়ার ব্যাংক',detail:'১০,০০০ mAh · USB-C',keywords:'power bank',offers:[[1490,90],[1450,180],[1550,0]]},
+{category:2,name:'স্কুল লাঞ্চ বক্স',detail:'৮০০ মিলি · তিনটি খোপ',keywords:'school lunch box',offers:[[540,70],[490,90],[590,0]]},
+{category:3,name:'ভ্যাকুয়াম ফ্লাস্ক',detail:'৫০০ মিলি · স্টেইনলেস স্টিল',keywords:'vacuum flask bottle',offers:[[790,70],[760,130],[865,0]]}
+];
+const stores=['COD.com.bd','নমুনা দোকান A','নমুনা দোকান B'];
+const money=new Intl.NumberFormat('bn-BD');
+const taka=value=>'৳'+money.format(value);
+const total=([price,delivery])=>price+delivery;
+const cheapest=product=>Math.min(...product.offers.map(total));
+const search=document.querySelector('#search'),sort=document.querySelector('#sort'),grid=document.querySelector('#grid'),filters=document.querySelector('#filters'),compare=document.querySelector('#compare');
+let category=0;
+function element(tag,content,className){const node=document.createElement(tag);node.textContent=content;node.className=className||'';return node}
+function show(product){
+document.querySelector('#product').textContent=product.name;
+const rows=product.offers.map((cost,index)=>({cost,store:stores[index]})).sort((a,b)=>total(a.cost)-total(b.cost)).map(({cost,store})=>{
+const row=document.createElement('tr');row.append(element('th',store),...cost.map(value=>element('td',taka(value))),element('td',taka(total(cost))));row.firstChild.scope='row';return row
+});
+document.querySelector('#offers').replaceChildren(...rows);compare.showModal();
+}
+function render(){
+const query=search.value.trim().toLocaleLowerCase();
+const matches=products.filter(product=>(!category||product.category===category)&&[product.name,product.detail,product.keywords,categories[product.category]].join(' ').toLocaleLowerCase().includes(query));
+if(sort.value!=='featured'){const direction=sort.value==='low'?1:-1;matches.sort((a,b)=>direction*(cheapest(a)-cheapest(b)))}
+document.querySelector('#count').textContent=matches.length?money.format(matches.length)+'টি পণ্য পাওয়া গেছে':'কোনো পণ্য পাওয়া যায়নি। অন্য নামে খুঁজে দেখুন।';
+grid.replaceChildren(...matches.map(product=>{
+const card=element('article','','card'),pricing=element('div','ডেলিভারিসহ সর্বনিম্ন','pricing');
+pricing.append(element('strong',taka(cheapest(product))));
+const button=element('button',money.format(product.offers.length)+'টি অফার তুলনা করুন','action');
+button.setAttribute('aria-label',product.name+' · '+button.textContent);button.onclick=()=>show(product);
+card.append(element('span',categories[product.category],'category'),element('h3',product.name),element('p',product.detail,'detail'),pricing,button);return card
+}));
+}
+categories.forEach((name,index)=>{const button=element('button',name);button.setAttribute('aria-pressed',String(index===0));button.onclick=()=>{category=index;[...filters.children].forEach((item,position)=>item.setAttribute('aria-pressed',String(position===index)));render()};filters.append(button)});
+search.addEventListener('input',render);sort.addEventListener('change',render);render();
+</script>
+</body>
+</html>
