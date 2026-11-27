@@ -68,13 +68,19 @@ function facebookPageLink(iconOnly=false){
   const attributes=iconOnly?' class="footer-facebook" aria-label="'+safe(label)+'" title="'+safe(label)+'"':'';
   return '<a'+attributes+' href="https://www.facebook.com/share/151KDnsRgvy/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">'+(iconOnly?icon:safe(label))+'</a>';
 }
+function youtubeChannelLink(iconOnly=false){
+  const label=editionCopy('ইউটিউবে দেখুন','Watch on YouTube');
+  const icon='<svg aria-hidden="true" focusable="false" width="32" height="32" viewBox="0 0 32 32"><rect x="1" y="5" width="30" height="22" rx="6" fill="#ff0033"/><path fill="white" d="m13 11 9 5-9 5z"/></svg>';
+  const attributes=iconOnly?' class="footer-facebook" aria-label="'+safe(label)+'" title="'+safe(label)+'"':'';
+  return '<a'+attributes+' href="https://www.youtube.com/@bdeveryday" target="_blank" rel="noopener noreferrer">'+(iconOnly?icon:safe(label))+'</a>';
+}
 function footerLinks(){
   const groups=[
     [editionCopy('সংবাদ','News'),[['section','national'],['section','district'],['section','probash'],['tool','live']]],
     [editionCopy('পাঠকের জন্য','For readers'),[['tool','paper'],['tool','archive'],['tool','saved'],['tool','topics']]],
     [editionCopy('বিডি এভরিডে','BD Everyday'),[['tool','about'],['tool','privacy'],['tool','connections'],['tool','desk']]]
   ];
-  return '<div class="footer-brand"><a href="'+editionHome()+'" lang="en"><img src="/bd-everyday-footer-logo.svg" width="2080" height="358" alt="BD Everyday" loading="lazy"></a><p>'+safe(managedCopy('slogan',editionCopy('প্রতিদিনের পাতায় বাংলাদেশ','Bangladesh on every page')))+'</p><p>'+facebookPageLink(true)+'</p></div>'+groups.map(([title,items])=>'<div><h2>'+title+'</h2><ul>'+items.map(([type,key])=>'<li><a href="'+link(type,key)+'">'+(type==='section'?categories[key]:utilities[key])+'</a></li>').join('')+'</ul></div>').join('');
+  return '<div class="footer-brand"><a href="'+editionHome()+'" lang="en"><img src="/bd-everyday-footer-logo.svg" width="2080" height="358" alt="BD Everyday" loading="lazy"></a><p>'+safe(managedCopy('slogan',editionCopy('প্রতিদিনের পাতায় বাংলাদেশ','Bangladesh on every page')))+'</p><p>'+facebookPageLink(true)+' '+youtubeChannelLink(true)+'</p></div>'+groups.map(([title,items])=>'<div><h2>'+title+'</h2><ul>'+items.map(([type,key])=>'<li><a href="'+link(type,key)+'">'+(type==='section'?categories[key]:utilities[key])+'</a></li>').join('')+'</ul></div>').join('');
 }
 function storyCard(story,{image=false}={}){
   const href=link('story',story[0]);
