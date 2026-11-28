@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint app lib proxy.ts scripts",
-    "typecheck": "node scripts/reference.mjs && tsc --noEmit"
+    "typecheck": "node scripts/reference.mjs && tsc --noEmit",
+    "test:article-search": "node scripts/reference.mjs && node --test scripts/article-search.test.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "0.12.7",

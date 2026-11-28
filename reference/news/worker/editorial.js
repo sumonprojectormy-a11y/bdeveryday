@@ -12,11 +12,13 @@ function articleImage(item,origin){
   return new URL((item.photo?.startsWith('/')||item.photo?.startsWith('https://'))?item.photo:'/apple-touch-icon.png',origin).href;
 }
 async function permanentArticle(request,env,locale,id){
-  const demo=Object.hasOwn(demoIndex[locale],id)?demoIndex[locale][id]:null;
-  const item=demo??await getPublished(env,id);
+  const bundled=Object.hasOwn(demoIndex[locale],id)?demoIndex[locale][id]:null;
+  const published=await getPublished(env,id);
+  const item=published??bundled;
+  const demo=!published&&bundled&&!publishedGuides.has(id);
   if(!item)return missingPage(request);
   let localized=item;
-  if(!demo&&locale==='en'){
+  if(published&&locale==='en'){
     const cache='english-v1/'+encodeURIComponent(id)+'/'+encodeURIComponent(item.updated_at)+'/full.json';
     const translation=await env.BUCKET.get(cache);
     if(translation)localized={...item,...await translation.json()};
@@ -29,11 +31,13 @@ async function permanentArticle(request,env,locale,id){
   const url=origin+permanent(id,locale),image=articleImage(item,origin),title=localized.title+' | BD Everyday';
   const summary=(demo?(locale==='en'?'Demo article. ':'নমুনা প্রতিবেদন। '):'')+localized.summary;
   const raw=await staticAsset(new Request(request.url),locale==='en'?'/en/':'/').text();
-  const meta='<meta name="description" content="'+escapeHtml(summary)+'"><link rel="canonical" href="'+escapeHtml(url)+'">'+['bn','en'].map(lang=>'<link rel="alternate" hreflang="'+lang+'" href="'+escapeHtml(origin+permanent(id,lang))+'">').join('')+
+  const meta=(demo?'<meta name="robots" content="noindex">':'')+'<meta name="description" content="'+escapeHtml(summary)+'"><link rel="canonical" href="'+escapeHtml(url)+'">'+['bn','en'].map(lang=>'<link rel="alternate" hreflang="'+lang+'" href="'+escapeHtml(origin+permanent(id,lang))+'">').join('')+
     Object.entries({'og:type':'article','og:title':title,'og:description':summary,'og:url':url,'og:image':image,'og:site_name':'BD Everyday','og:locale':locale==='en'?'en_GB':'bn_BD'}).map(([k,v])=>'<meta property="'+k+'" content="'+escapeHtml(v)+'">').join('')+'<meta name="twitter:card" content="summary_large_image">';
   const article='<article class="reading"><h1>'+escapeHtml(localized.title)+'</h1><p>'+escapeHtml(summary)+'</p>'+localized.body.split(/\n+/).filter(Boolean).map(p=>'<p>'+escapeHtml(p)+'</p>').join('')+'</article>';
   const html=raw.replace(/<title>[^<]*<\/title>/,()=>'<title>'+escapeHtml(title)+'</title>').replace(/<meta name="description"[^>]*>/,()=>meta).replace('<div id="content"></div>',()=>'<div id="content">'+article+'</div>');
-  return new Response(request.method==='HEAD'?null:html,{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'}});
+  const headers={'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'};
+  if(demo)headers['X-Robots-Tag']='noindex';
+  return new Response(request.method==='HEAD'?null:html,{headers});
 }
 export async function sitemapPaths(env){
   const rows=(await env.DB.prepare('SELECT id,updated_at FROM newsroom_articles WHERE '+visible).bind(now()).all()).results;
@@ -42,12 +46,11 @@ export async function sitemapPaths(env){
     pages.set(path, undefined);
   }
   for (const lang of ['bn', 'en']) {
-    for (const [id, item] of Object.entries(demoIndex[lang])) {
-      pages.set(permanent(id, lang), item.date);
+    for (const id of publishedGuides) {
+      pages.set(permanent(id, lang), demoIndex[lang][id].date);
     }
     for (const item of rows) {
-      const path = permanent(item.id, lang);
-      if (!pages.has(path)) pages.set(path, item.updated_at);
+      pages.set(permanent(item.id, lang), item.updated_at);
     }
   }
   return Array.from(pages);

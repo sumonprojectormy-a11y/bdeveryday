@@ -8,7 +8,7 @@ See [FILE-TREE.txt](FILE-TREE.txt) for the exact project tree. The ZIP includes 
 
 ## 2. Database
 
-Run [supabase/schema.sql](supabase/schema.sql) and then [supabase/demo.sql](supabase/demo.sql) in the same project's Supabase SQL Editor. Each file runs as its own transaction and may be replayed. The 132 sample news articles in each language are shipped with the site. The seed adds the companion records, delivery zones, stock and a newsroom training draft without duplicating or reordering the public sample articles.
+Run [supabase/schema.sql](supabase/schema.sql) and then [supabase/demo.sql](supabase/demo.sql) in the same project's Supabase SQL Editor. Each file runs as its own transaction and may be replayed. The site ships with 132 bundled articles in each language, including the reviewed evergreen guides. The seed adds the companion records, delivery zones, stock and a newsroom training draft without duplicating or reordering the bundled articles.
 
 The schema creates the private administrator registry, `public.is_admin()`, RLS policies, five newsroom/editorial tables plus staff, the CMS, order records and two storage buckets. Direct public access to the newsroom table is disabled to protect staff email and unpublished records. The public article API projects allowed fields from visible rows. The public storage bucket contains published media selected by administrators. The private bucket contains reader attachments and newsroom photos, served through route guards.
 
@@ -25,6 +25,17 @@ The server uses the Supabase transaction pooler for publication, private submiss
 - With no environment variables, the public reference pages and companion demos run in demo mode. Supabase sign-in and production writes activate after setup.
 - The shop adds the name, phone and address fields required to create a real COD order in connected mode. The opportunities module links to an official application destination when its record has one.
 - Existing source imagery and dynamic stories retain their original source/credit and translated paths. The reference uses an external translation service as a fallback for published articles without authored English text. Use a Translation record for editorially reviewed titles, summaries and body copy.
+
+### Article search visibility
+
+Visible newsroom publications and the bilingual evergreen guides explicitly listed in
+`reference/news/worker/published-guides.json` are included in the sitemap. The list applies to
+both editions and is validated at build time. Other bundled articles remain accessible at their
+existing URLs but are omitted from the sitemap and return `noindex`. Do not block those URLs in
+robots.txt: crawlers need to fetch the page to read the directive. A visible newsroom publication
+takes precedence if its ID matches a bundled article.
+
+Run `npm run test:article-search` to check both editions, demo directives, and sitemap behavior.
 
 ## 5. Administration
 

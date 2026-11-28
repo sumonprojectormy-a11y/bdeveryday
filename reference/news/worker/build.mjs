@@ -47,7 +47,14 @@ for(const [locale,path] of [['bn','/'],['en','/en/']]){
     return [item.id,{title,summary,body:paragraphs.join('\n\n'),photo:item.photo?'/photos/'+item.photo+'.webp':null,date:item.date??'2026-11-24'}];
   })]);
 }
-const source='const desks = '+JSON.stringify(desks)+';\nconst demoIndex = '+JSON.stringify(demoIndex)+';\n'+readFileSync('worker/editorial.js','utf8')+'\n'+readFileSync('worker/live.js','utf8')+'\n'+readFileSync('worker/translate.js','utf8')+'\n'+readFileSync('worker/index.js','utf8');
+// Only explicitly reviewed bundled guides are eligible for search.
+const publishedGuideIds=JSON.parse(readFileSync('worker/published-guides.json','utf8'));
+if(!Array.isArray(publishedGuideIds)||new Set(publishedGuideIds).size!==publishedGuideIds.length||
+  publishedGuideIds.some(id=>typeof id!=='string'||!['bn','en'].every(lang=>
+    Object.hasOwn(demoIndex[lang],id)&&demoIndex[lang][id].body.trim()))) {
+  throw Error('Published guides must be unique and have an article body in both editions.');
+}
+const source='const desks = '+JSON.stringify(desks)+';\nconst demoIndex = '+JSON.stringify(demoIndex)+';\nconst publishedGuides = new Set('+JSON.stringify(publishedGuideIds)+');\n'+readFileSync('worker/editorial.js','utf8')+'\n'+readFileSync('worker/live.js','utf8')+'\n'+readFileSync('worker/translate.js','utf8')+'\n'+readFileSync('worker/index.js','utf8');
 writeFileSync('dist/server/index.js','const assets = '+JSON.stringify(assets)+';\n'+source);
 cpSync('.openai/hosting.json','dist/.openai/hosting.json');
 cpSync('drizzle','dist/.openai/drizzle',{recursive:true});
