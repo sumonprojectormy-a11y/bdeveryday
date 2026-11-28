@@ -35,12 +35,26 @@ async function permanentArticle(request,env,locale,id){
   const html=raw.replace(/<title>[^<]*<\/title>/,()=>'<title>'+escapeHtml(title)+'</title>').replace(/<meta name="description"[^>]*>/,()=>meta).replace('<div id="content"></div>',()=>'<div id="content">'+article+'</div>');
   return new Response(request.method==='HEAD'?null:html,{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'}});
 }
+export async function sitemapPaths(env){
+  const rows=(await env.DB.prepare('SELECT id,updated_at FROM newsroom_articles WHERE '+visible).bind(now()).all()).results;
+  const pages = new Map();
+  for (const path of ['/', '/about', '/contact', '/privacy-policy', '/en/', '/country/', '/en/country/', '/compare', '/opportunities', '/shop', ...Object.keys(desks)]) {
+    pages.set(path, undefined);
+  }
+  for (const lang of ['bn', 'en']) {
+    for (const [id, item] of Object.entries(demoIndex[lang])) {
+      pages.set(permanent(id, lang), item.date);
+    }
+    for (const item of rows) {
+      const path = permanent(item.id, lang);
+      if (!pages.has(path)) pages.set(path, item.updated_at);
+    }
+  }
+  return Array.from(pages);
+}
 async function sitemap(request,env){
   const origin=canonicalOrigin(new URL(request.url));
-  const rows=(await env.DB.prepare('SELECT id,updated_at FROM newsroom_articles WHERE '+visible).bind(now()).all()).results;
-  const pages=['/','/en/','/country/','/en/country/','/compare','/opportunities','/shop',...Object.keys(desks)].map(path=>[path,'']);
-  for(const [id,item] of Object.entries(demoIndex.bn))for(const lang of ['bn','en'])pages.push([permanent(id,lang),item.date??'']);
-  for(const item of rows)for(const lang of ['bn','en'])pages.push([permanent(item.id,lang),item.updated_at??'']);
+  const pages=await sitemapPaths(env);
   return new Response('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+pages.map(([path,date])=>'<url><loc>'+escapeHtml(origin+path)+'</loc>'+(date?'<lastmod>'+escapeHtml(date)+'</lastmod>':'')+'</url>').join('')+'</urlset>',{headers:{'Content-Type':'application/xml; charset=utf-8','Cache-Control':'public, max-age=300'}});
 }
 async function readerSubmission(request,env){
